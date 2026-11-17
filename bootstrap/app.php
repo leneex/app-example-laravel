@@ -11,7 +11,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        // HTTPS принимает прокси платформы, приложению запрос приходит по HTTP:
+        // доверяем его заголовкам X-Forwarded-*, чтобы ссылки строились с https
+        $middleware->trustProxies(at: '*');
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
